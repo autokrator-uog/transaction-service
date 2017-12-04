@@ -1,0 +1,14 @@
+eventBusURL: ws://127.0.0.1:8081
+
+logging:
+  level: INFO
+  loggers:
+    uk.ac.gla.sed.clients: DEBUG
+
+server:
+  type: simple
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 8080
