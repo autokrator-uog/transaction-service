@@ -12,3 +12,17 @@ server:
   connector:
     type: http
     port: 8080
+
+# Database settings.
+database:
+  # the name of your JDBC driver
+  driverClass: org.postgresql.Driver
+
+  # the username
+  user: transactionservice
+
+  # the password
+  password: transactionservice
+
+  # the JDBC URL
+  url: jdbc:postgresql://127.0.0.1:5432/transactionservice
