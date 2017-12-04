@@ -1,4 +1,4 @@
-package uk.ac.gla.sed.clients.api;
+package uk.ac.gla.sed.clients.transactionservice.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

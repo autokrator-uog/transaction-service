@@ -1,11 +1,10 @@
-package uk.ac.gla.sed.clients.resources;
+package uk.ac.gla.sed.clients.transactionservice.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import uk.ac.gla.sed.clients.api.Hello;
+import uk.ac.gla.sed.clients.transactionservice.api.Hello;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.*;
-import java.awt.*;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)

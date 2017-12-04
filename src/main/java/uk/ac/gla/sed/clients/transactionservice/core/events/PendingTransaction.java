@@ -1,4 +1,4 @@
-package uk.ac.gla.sed.clients.events;
+package uk.ac.gla.sed.clients.transactionservice.core.events;
 
 import com.eclipsesource.json.Json;
 import uk.ac.gla.sed.shared.eventbusclient.api.Event;

@@ -1,4 +1,4 @@
-package uk.ac.gla.sed.clients;
+package uk.ac.gla.sed.clients.transactionservice;
 
 import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;

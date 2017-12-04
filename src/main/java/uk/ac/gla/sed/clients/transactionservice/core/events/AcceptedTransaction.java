@@ -1,28 +1,22 @@
-package uk.ac.gla.sed.clients.events;
+package uk.ac.gla.sed.clients.transactionservice.core.events;
+
 
 import com.eclipsesource.json.Json;
 import uk.ac.gla.sed.shared.eventbusclient.api.Event;
 
-public class RejectedTransaction extends Event {
+public class AcceptedTransaction extends Event {
     private String transactionId;
-    private String reason;
 
-    public RejectedTransaction(PendingTransaction transaction, String reason) {
+    public AcceptedTransaction(PendingTransaction transaction) {
         this.transactionId = transaction.getTransactionId();
-        this.reason = reason;
 
-        this.type = "RejectedTransaction";
+        this.type = "AcceptedTransaction";
 
         this.data = Json.object().asObject();
         this.data.set("TransactionID", this.transactionId);
-        this.data.set("Reason", this.reason);
     }
 
     public String getTransactionId() {
         return transactionId;
-    }
-
-    public String getReason() {
-        return reason;
     }
 }
