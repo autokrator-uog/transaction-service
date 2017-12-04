@@ -38,6 +38,8 @@ public class TransactionServiceApplication extends Application<TransactionServic
         final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
 
         final TransactionDAO dao = jdbi.onDemand(TransactionDAO.class);
+        LinkedBlockingQueue<Transaction> toProcess = new LinkedBlockingQueue<>();
+
 
         System.out.println("What is your problem with me?");
         dao.deleteTableIfExists();
@@ -50,7 +52,7 @@ public class TransactionServiceApplication extends Application<TransactionServic
 
 
         environment.jersey().register(new HelloResource());
-        environment.jersey().register(new TransactionResource());
+        environment.jersey().register(new TransactionResource(toProcess));
     }
 
 }

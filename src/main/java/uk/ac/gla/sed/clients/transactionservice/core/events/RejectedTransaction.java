@@ -18,6 +18,18 @@ public class RejectedTransaction extends Event {
         this.data.set("Reason", this.reason);
     }
 
+    public RejectedTransaction(Event incomingEvent){
+        if (!incomingEvent.getType().equals("RejectedTransaction")){
+            throw new IllegalArgumentException("Event must be of type RejectedTransaction");
+        }
+        this.type = incomingEvent.getType();
+
+        this.data = Json.object().asObject();
+        this.data.merge(incomingEvent.getData());
+        this.transactionId = data.getString("TransactionID", "");
+        this.reason = data.getString("Reason", "Reason not found");
+    }
+
     public String getTransactionId() {
         return transactionId;
     }

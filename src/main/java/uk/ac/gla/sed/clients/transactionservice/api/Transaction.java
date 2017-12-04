@@ -12,6 +12,8 @@ public class Transaction {
 
     private BigDecimal amount;
 
+    private Integer transactionID;
+
     public Transaction() {}
 
     public Transaction(Integer fromAccountID, Integer toAccountID,
@@ -19,6 +21,14 @@ public class Transaction {
         this.fromAccountID = fromAccountID;
         this.toAccountID = toAccountID;
         this.amount = amount;
+    }
+
+    public Integer getTransactionID() {
+        return transactionID;
+    }
+
+    public void setTransactionID(Integer transactionID) {
+        this.transactionID = transactionID;
     }
 
     @JsonProperty

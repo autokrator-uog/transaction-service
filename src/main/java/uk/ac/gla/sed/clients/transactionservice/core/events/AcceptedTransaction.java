@@ -16,6 +16,17 @@ public class AcceptedTransaction extends Event {
         this.data.set("TransactionID", this.transactionId);
     }
 
+    public AcceptedTransaction(Event incomingEvent){
+        if (!incomingEvent.getType().equals("AcceptedTransaction")){
+            throw new IllegalArgumentException("Event must be of type AcceptedTransaction");
+        }
+        this.type = incomingEvent.getType();
+
+        this.data = Json.object().asObject();
+        this.data.merge(incomingEvent.getData());
+        this.transactionId = data.getString("TransactionID", "");
+    }
+
     public String getTransactionId() {
         return transactionId;
     }
