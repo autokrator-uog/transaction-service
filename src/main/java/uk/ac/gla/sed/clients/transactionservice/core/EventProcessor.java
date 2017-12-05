@@ -28,7 +28,6 @@ public class EventProcessor implements Managed {
     }
 
     public EventBusClient getEventBusClient(){
-        // TODO: this might need looking at.
         return this.eventBusClient;
     }
 

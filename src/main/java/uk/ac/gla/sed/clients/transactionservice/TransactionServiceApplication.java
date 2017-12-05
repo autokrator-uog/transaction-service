@@ -7,6 +7,7 @@ import io.dropwizard.setup.Environment;
 import org.skife.jdbi.v2.DBI;
 import uk.ac.gla.sed.clients.transactionservice.api.apiTransaction;
 import uk.ac.gla.sed.clients.transactionservice.core.EventProcessor;
+import uk.ac.gla.sed.clients.transactionservice.health.EventBusHealthCheck;
 import uk.ac.gla.sed.clients.transactionservice.jdbi.TransactionDAO;
 import uk.ac.gla.sed.clients.transactionservice.resources.HelloResource;
 import uk.ac.gla.sed.clients.transactionservice.resources.StatusResource;
@@ -17,7 +18,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class TransactionServiceApplication extends Application<TransactionServiceConfiguration> {
 
-    public LinkedBlockingQueue<apiTransaction> incomingApiTransactions = new LinkedBlockingQueue<>();
 
     public static void main(final String[] args) throws Exception {
         new TransactionServiceApplication().run(args);
@@ -30,7 +30,7 @@ public class TransactionServiceApplication extends Application<TransactionServic
 
     @Override
     public void initialize(final Bootstrap<TransactionServiceConfiguration> bootstrap) {
-        // TODO: application initialization
+
     }
 
     @Override
@@ -47,6 +47,11 @@ public class TransactionServiceApplication extends Application<TransactionServic
         dao.deleteTableIfExists();
         dao.createTransactionTable();
         dao.addTransaction(1);
+
+        /* HEALTH CHECKS */
+        final EventBusHealthCheck eventBusHealthCheck = new EventBusHealthCheck(eventBusURL);
+        environment.healthChecks().register("event-bus", eventBusHealthCheck);
+        // postgres is automatically checked
 
           /* MANAGED LIFECYCLES */
         final EventProcessor eventProcessor = new EventProcessor(

@@ -11,8 +11,8 @@ public class TransactionHandler {
     // TODO: LOGGING, DOCS, BASIC ERRORS?
     private static final Logger LOG = Logger.getLogger(TransactionHandler.class.getName());
 
-    private final int STATUS_ACCEPTED = 1;
-    private final int STATUS_REJECTED = 2;
+    private static final int STATUS_ACCEPTED = 1;
+    private static final int STATUS_REJECTED = 2;
 
     private TransactionDAO dao;
     private EventBusClient eventBusClient;
@@ -27,7 +27,7 @@ public class TransactionHandler {
 
         dao.updateStatus(id, STATUS_REJECTED, reason);
         LOG.fine(String.format("Handled rejected transaction %s with reason: %s", rejected.getTransactionId(), rejected.getReason()));
-        System.out.println("Rejected handled");
+        //System.out.println("Rejected handled");
     }
 
     public void handleTransaction(AcceptedTransaction accepted){
@@ -35,6 +35,6 @@ public class TransactionHandler {
 
         dao.updateStatus(id, STATUS_ACCEPTED);
         LOG.fine(String.format("Handled accepted transaction %s", accepted.getTransactionId()));
-        System.out.println("Accepted handled");
+        //System.out.println("Accepted handled");
     }
 }

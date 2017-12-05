@@ -7,12 +7,6 @@ import uk.ac.gla.sed.shared.eventbusclient.api.Event;
 public class AcceptedTransaction extends Event {
     private String transactionId;
 
-    public AcceptedTransaction(PendingTransaction transaction) {
-        super("AcceptedTransaction", Json.object().asObject());
-
-        this.data.set("TransactionID", transaction.getTransactionId());
-    }
-
     public AcceptedTransaction(Event incomingEvent){
         super("AcceptedTransaction", Json.object().asObject());
 
