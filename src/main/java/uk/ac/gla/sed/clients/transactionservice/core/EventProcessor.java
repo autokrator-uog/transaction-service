@@ -3,6 +3,7 @@ package uk.ac.gla.sed.clients.transactionservice.core;
 import io.dropwizard.lifecycle.Managed;
 import uk.ac.gla.sed.clients.transactionservice.core.events.AcceptedTransaction;
 import uk.ac.gla.sed.clients.transactionservice.core.events.RejectedTransaction;
+import uk.ac.gla.sed.clients.transactionservice.core.handlers.TransactionHandler;
 import uk.ac.gla.sed.clients.transactionservice.jdbi.TransactionDAO;
 import uk.ac.gla.sed.shared.eventbusclient.api.Event;
 import uk.ac.gla.sed.shared.eventbusclient.api.EventBusClient;
@@ -23,7 +24,12 @@ public class EventProcessor implements Managed {
     @Override
     public void start() throws Exception{
         this.eventBusClient.start();
-        // consume events
+        workers.submit(new ConsumeEventTask());
+    }
+
+    public EventBusClient getEventBusClient(){
+        // TODO: this might need looking at.
+        return this.eventBusClient;
     }
 
     @Override
@@ -36,14 +42,15 @@ public class EventProcessor implements Managed {
         public void run(){
             while(true){
                 try{
+                    TransactionHandler handler = new TransactionHandler(dao);
                     Event incomingEvent = eventBusClient.getIncomingEventsQueue().take();
                     if (incomingEvent.getType().equals("AcceptedTransaction")){
-                        AcceptedTransaction accepeted = new AcceptedTransaction(incomingEvent);
-                        // Process using transaction handler
+                        AcceptedTransaction accepted = new AcceptedTransaction(incomingEvent);
+                        handler.handleTransaction(accepted);
                     }
                     if (incomingEvent.getType().equals("RejectedTransaction")){
                         RejectedTransaction rejected = new RejectedTransaction(incomingEvent);
-                        // Process using transaction handler
+                        handler.handleTransaction(rejected);
                     }
                 }
                 catch (InterruptedException e){

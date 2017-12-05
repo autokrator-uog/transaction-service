@@ -21,7 +21,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dropwizard.version>1.2.2</dropwizard.version>
         <mainClass>uk.ac.gla.sed.clients.Transaction ServiceApplication</mainClass>
-        <eventbusclient.version>1.0.123</eventbusclient.version>
+        <eventbusclient.version>1.0.149</eventbusclient.version>
     </properties>
 
 

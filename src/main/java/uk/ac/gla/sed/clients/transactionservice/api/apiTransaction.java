@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
 
-public class Transaction {
+public class apiTransaction {
 
     private Integer fromAccountID;
 
@@ -14,10 +14,10 @@ public class Transaction {
 
     private Integer transactionID;
 
-    public Transaction() {}
+    public apiTransaction() {}
 
-    public Transaction(Integer fromAccountID, Integer toAccountID,
-                        BigDecimal amount){
+    public apiTransaction(Integer fromAccountID, Integer toAccountID,
+                          BigDecimal amount){
         this.fromAccountID = fromAccountID;
         this.toAccountID = toAccountID;
         this.amount = amount;

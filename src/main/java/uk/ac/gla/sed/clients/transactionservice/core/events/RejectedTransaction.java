@@ -8,6 +8,7 @@ public class RejectedTransaction extends Event {
     private String reason;
 
     public RejectedTransaction(PendingTransaction transaction, String reason) {
+        super("RejectedTransaction");
         this.transactionId = transaction.getTransactionId();
         this.reason = reason;
 
@@ -19,10 +20,10 @@ public class RejectedTransaction extends Event {
     }
 
     public RejectedTransaction(Event incomingEvent){
+        super(incomingEvent.getType());
         if (!incomingEvent.getType().equals("RejectedTransaction")){
             throw new IllegalArgumentException("Event must be of type RejectedTransaction");
         }
-        this.type = incomingEvent.getType();
 
         this.data = Json.object().asObject();
         this.data.merge(incomingEvent.getData());

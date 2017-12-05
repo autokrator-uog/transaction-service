@@ -1,9 +1,14 @@
 eventBusURL: ws://127.0.0.1:8081
 
+# Logging settings.
 logging:
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
   level: INFO
+
+  # Logger-specific levels.
   loggers:
-    uk.ac.gla.sed.clients: DEBUG
+    # Sets the level for 'com.example.app' to DEBUG.
+    uk.ac.gla.sed: DEBUG
 
 server:
   type: simple
