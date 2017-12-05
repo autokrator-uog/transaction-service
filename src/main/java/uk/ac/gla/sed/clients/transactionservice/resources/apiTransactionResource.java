@@ -34,6 +34,9 @@ public class apiTransactionResource {
     @POST
     @Timed
     public apiTransaction newTransaction(apiTransaction incoming){
+        if (currentID == null){
+            currentID = 1;
+        }
         currentID++;
         incoming.setTransactionID(currentID);
 

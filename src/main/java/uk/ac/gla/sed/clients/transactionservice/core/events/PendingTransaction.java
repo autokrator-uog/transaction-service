@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 
 public class PendingTransaction extends Event {
     private String transactionId;
-    private String fromAccountId;
-    private String toAccountId;
+    private Integer fromAccountId;
+    private Integer toAccountId;
     private BigDecimal amount;
 
 public PendingTransaction(Event e) throws IllegalArgumentException {
@@ -21,8 +21,8 @@ public PendingTransaction(Event e) throws IllegalArgumentException {
         }
 
         this.transactionId =    data.getString("TransactionID", "");
-        this.fromAccountId = data.getString("FromAccountID", "-1");
-        this.toAccountId = data.getString("ToAccountID", "-1");
+        this.fromAccountId = data.getInt("FromAccountID", -1);
+        this.toAccountId = data.getInt("ToAccountID", -1);
         this.amount = new BigDecimal(data.getString("Amount", "0"));
     }
 
@@ -30,8 +30,8 @@ public PendingTransaction(Event e) throws IllegalArgumentException {
         super("PendingTransaction", Json.object().asObject());
 
         data.set("TransactionID", transaction.getTransactionID().toString());
-        data.set("FromAccountID", transaction.getFromAccountID().toString());
-        data.set("ToAccountID", transaction.getToAccountID().toString());
+        data.set("FromAccountID", transaction.getFromAccountID());
+        data.set("ToAccountID", transaction.getToAccountID());
         data.set("Amount", transaction.getAmount().toString());
         }
 
@@ -39,11 +39,11 @@ public PendingTransaction(Event e) throws IllegalArgumentException {
         return transactionId;
     }
 
-    public String getFromAccountId() {
+    public Integer getFromAccountId() {
         return fromAccountId;
     }
 
-    public String getToAccountId() {
+    public Integer getToAccountId() {
         return toAccountId;
     }
 
