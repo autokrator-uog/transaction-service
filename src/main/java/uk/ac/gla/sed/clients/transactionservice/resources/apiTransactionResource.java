@@ -43,6 +43,7 @@ public class apiTransactionResource {
         PendingTransaction current = new PendingTransaction(incoming);
 
         dao.addTransaction(currentID);
+        dao.updateStatus(currentID,0);
         eventBusClient.sendEvent(current);
 
 

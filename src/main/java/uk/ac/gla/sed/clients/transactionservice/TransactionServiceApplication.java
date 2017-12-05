@@ -9,6 +9,7 @@ import uk.ac.gla.sed.clients.transactionservice.api.apiTransaction;
 import uk.ac.gla.sed.clients.transactionservice.core.EventProcessor;
 import uk.ac.gla.sed.clients.transactionservice.jdbi.TransactionDAO;
 import uk.ac.gla.sed.clients.transactionservice.resources.HelloResource;
+import uk.ac.gla.sed.clients.transactionservice.resources.StatusResource;
 import uk.ac.gla.sed.clients.transactionservice.resources.apiTransactionResource;
 import uk.ac.gla.sed.shared.eventbusclient.api.EventBusClient;
 
@@ -45,6 +46,7 @@ public class TransactionServiceApplication extends Application<TransactionServic
 
         dao.deleteTableIfExists();
         dao.createTransactionTable();
+        dao.addTransaction(1);
 
           /* MANAGED LIFECYCLES */
         final EventProcessor eventProcessor = new EventProcessor(
@@ -59,6 +61,7 @@ public class TransactionServiceApplication extends Application<TransactionServic
 
         environment.jersey().register(new HelloResource());
         environment.jersey().register(new apiTransactionResource(eventBusClient, lastTransactionID ,dao));
+        environment.jersey().register(new StatusResource(dao));
     }
 
 }
