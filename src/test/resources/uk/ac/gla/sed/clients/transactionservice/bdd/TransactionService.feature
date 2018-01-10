@@ -8,14 +8,14 @@ Feature: Transaction Service
     And the transaction service has stored a transaction with id 1 with status "PENDING"
 
   Scenario: Transaction is accepted
-    Given there exists a PendingTransaction with id 2
-    When an "AcceptedTransaction" event is received for transactionId 2
-    Then the transaction service has stored a transaction with id 2 with status "ACCEPTED"
+    Given there exists a PendingTransaction with id 20
+    When an "AcceptedTransaction" event is received for transactionId 20
+    Then the transaction service has stored a transaction with id 20 with status "ACCEPTED"
 
   Scenario: Transaction is rejected
-    Given there exists a PendingTransaction with id 2
-    When an "RejectedTransaction" event is received for transactionId 2
-    Then the transaction service has stored a transaction with id 2 with status "REJECTED"
+    Given there exists a PendingTransaction with id 35
+    When a "RejectedTransaction" event is received for transactionId 35
+    Then the transaction service has stored a transaction with id 35 with status "REJECTED"
 
 #  Scenario: Alice's browser requests the status of her transaction, and it is ready
 #    Given the status of Transaction ID 1 is "ACCEPTED"

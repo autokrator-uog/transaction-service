@@ -82,7 +82,7 @@ public class EventBusStepDefs implements En {
     public EventBusStepDefs() {
         When("a[n]* \"(\\w+)\" event is received for transactionId (\\d+)", (String eventType, Integer transactionId) -> {
             Event event = new Event(eventType, Json.object().asObject()
-                    .set("TransactionID", transactionId)
+                    .set("TransactionID", transactionId.toString())
             );
             setupReceiveEvent(event);
             runEventProcessor();
