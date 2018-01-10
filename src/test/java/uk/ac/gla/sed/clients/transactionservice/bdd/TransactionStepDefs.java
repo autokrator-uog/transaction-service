@@ -29,17 +29,17 @@ public class TransactionStepDefs implements En {
 
         Then("the transaction service has stored a transaction with id (\\d+) with status \"(\\w+)\"", (Integer transactionId, String status) -> {
             final TransactionDAO dao = dbi.onDemand(TransactionDAO.class);
-            int statusActual = dao.getStatus(transactionId);
+            Integer statusActual = dao.getStatus(transactionId);
 
             switch (status) {
                 case "PENDING":
-                    assertEquals(0, statusActual);
+                    assertEquals(0, statusActual.intValue());
                     break;
                 case "ACCEPTED":
-                    assertEquals(TransactionHandler.STATUS_ACCEPTED, statusActual);
+                    assertEquals(TransactionHandler.STATUS_ACCEPTED, statusActual.intValue());
                     break;
                 case "REJECTED":
-                    assertEquals(TransactionHandler.STATUS_REJECTED, statusActual);
+                    assertEquals(TransactionHandler.STATUS_REJECTED, statusActual.intValue());
                     break;
             }
         });
