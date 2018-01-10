@@ -5,7 +5,6 @@ import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.skife.jdbi.v2.DBI;
-import uk.ac.gla.sed.clients.transactionservice.api.apiTransaction;
 import uk.ac.gla.sed.clients.transactionservice.core.EventProcessor;
 import uk.ac.gla.sed.clients.transactionservice.health.EventBusHealthCheck;
 import uk.ac.gla.sed.clients.transactionservice.jdbi.TransactionDAO;
@@ -13,8 +12,6 @@ import uk.ac.gla.sed.clients.transactionservice.resources.HelloResource;
 import uk.ac.gla.sed.clients.transactionservice.resources.StatusResource;
 import uk.ac.gla.sed.clients.transactionservice.resources.apiTransactionResource;
 import uk.ac.gla.sed.shared.eventbusclient.api.EventBusClient;
-
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class TransactionServiceApplication extends Application<TransactionServiceConfiguration> {
 
@@ -39,10 +36,8 @@ public class TransactionServiceApplication extends Application<TransactionServic
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
         final TransactionDAO dao = jdbi.onDemand(TransactionDAO.class);
-        final Integer lastTransactionID = dao.getHighestAccountId();
+        final Integer lastTransactionID = dao.getHighestTransactionId();
         String eventBusURL = configuration.getEventBusURL();
-
-
 
         dao.deleteTableIfExists();
         dao.createTransactionTable();
@@ -53,7 +48,7 @@ public class TransactionServiceApplication extends Application<TransactionServic
         environment.healthChecks().register("event-bus", eventBusHealthCheck);
         // postgres is automatically checked
 
-          /* MANAGED LIFECYCLES */
+        /* MANAGED LIFECYCLES */
         final EventProcessor eventProcessor = new EventProcessor(
                 eventBusURL,
                 dao,
@@ -61,8 +56,6 @@ public class TransactionServiceApplication extends Application<TransactionServic
         );
         EventBusClient eventBusClient = eventProcessor.getEventBusClient();
         environment.lifecycle().manage(eventProcessor);
-
-
 
         environment.jersey().register(new HelloResource());
         environment.jersey().register(new apiTransactionResource(eventBusClient, lastTransactionID ,dao));
