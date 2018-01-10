@@ -19,7 +19,7 @@ build:
   image: maven:3-jdk-8
   script:
     - mvn -DskipTests -Deventbusclient.version=$EVENT_BUS_CLIENT_VERSION versions:set -DnewVersion=$VERSION
-    - mvn -DskipTests -Deventbusclient.version=$EVENT_BUS_CLIENT_VERSION -D clean test package
+    - mvn -Deventbusclient.version=$EVENT_BUS_CLIENT_VERSION -D clean test package
   artifacts:
     paths:
       - target/*.jar
