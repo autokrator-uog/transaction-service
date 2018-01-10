@@ -11,8 +11,8 @@ public class TransactionHandler {
     // TODO: LOGGING, DOCS, BASIC ERRORS?
     private static final Logger LOG = Logger.getLogger(TransactionHandler.class.getName());
 
-    private static final int STATUS_ACCEPTED = 1;
-    private static final int STATUS_REJECTED = 2;
+    public static final int STATUS_ACCEPTED = 1;
+    public static final int STATUS_REJECTED = 2;
 
     private TransactionDAO dao;
     private EventBusClient eventBusClient;

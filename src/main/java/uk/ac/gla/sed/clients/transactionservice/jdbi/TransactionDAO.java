@@ -21,11 +21,11 @@ public interface TransactionDAO {
     String getReason(@Bind("id") int transactionID);
 
     @SqlQuery("SELECT id FROM transactions ORDER BY id DESC LIMIT 1;")
-    Integer getHighestAccountId();
+    Integer getHighestTransactionId();
 
-    @SqlUpdate("UPDATE transactions SET status=:status, reason=:reason WHERE id=:id")
+    @SqlUpdate("UPDATE transactions SET status=:status, reason=:reason WHERE id=:id; COMMIT;")
     void updateStatus(@Bind("id") int transactionID, @Bind("status") int status, @Bind("reason") String reason);
 
-    @SqlUpdate("UPDATE transactions SET status=:status WHERE id=:id")
+    @SqlUpdate("UPDATE transactions SET status=:status WHERE id=:id; COMMIT;")
     void updateStatus(@Bind("id") int transactionID, @Bind("status") int status);
 }

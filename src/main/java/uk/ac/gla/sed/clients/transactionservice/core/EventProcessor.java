@@ -1,5 +1,6 @@
 package uk.ac.gla.sed.clients.transactionservice.core;
 
+import com.google.common.eventbus.EventBus;
 import io.dropwizard.lifecycle.Managed;
 import uk.ac.gla.sed.clients.transactionservice.core.events.AcceptedTransaction;
 import uk.ac.gla.sed.clients.transactionservice.core.events.RejectedTransaction;
@@ -15,10 +16,14 @@ public class EventProcessor implements Managed {
     private final ExecutorService workers;
     private final TransactionDAO dao;
 
-    public  EventProcessor(String eventBusUrl, TransactionDAO dao, ExecutorService es){
-        this.eventBusClient = new EventBusClient(eventBusUrl);
-        this.workers = es;
+    public EventProcessor(String eventBusUrl, TransactionDAO dao, ExecutorService es){
+        this(new EventBusClient(eventBusUrl), dao, es);
+    }
+
+    public EventProcessor(EventBusClient eventBusClient, TransactionDAO dao, ExecutorService es) {
+        this.eventBusClient = eventBusClient;
         this.dao = dao;
+        this.workers = es;
     }
 
     @Override
