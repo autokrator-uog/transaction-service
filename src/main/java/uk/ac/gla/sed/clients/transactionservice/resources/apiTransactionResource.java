@@ -44,7 +44,7 @@ public class apiTransactionResource {
 
         dao.addTransaction(currentID);
         dao.updateStatus(currentID,0);
-        eventBusClient.sendEvent(current);
+        eventBusClient.sendEvent(current, null);
 
 
         return incoming;
