@@ -1,0 +1,33 @@
+eventBusURL: ws://eventbus:8081
+
+# Logging settings.
+logging:
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Logger-specific levels.
+  loggers:
+    # Sets the level for 'com.example.app' to DEBUG.
+    uk.ac.gla.sed: DEBUG
+
+server:
+  type: simple
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 5004
+
+# Database settings.
+database:
+  # the name of your JDBC driver
+  driverClass: org.postgresql.Driver
+
+  # the username
+  user: transactionservice
+
+  # the password
+  password: transactionservice
+
+  # the JDBC URL
+  url: jdbc:postgresql://transactionservice_db:5432/transactionservice

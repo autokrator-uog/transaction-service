@@ -35,13 +35,14 @@ public class TransactionServiceApplication extends Application<TransactionServic
                     final Environment environment) {
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
+        
         final TransactionDAO dao = jdbi.onDemand(TransactionDAO.class);
-        final Integer lastTransactionID = dao.getHighestTransactionId();
-        String eventBusURL = configuration.getEventBusURL();
-
         dao.deleteTableIfExists();
         dao.createTransactionTable();
         dao.addTransaction(1);
+                
+        final Integer lastTransactionID = dao.getHighestTransactionId();
+        String eventBusURL = configuration.getEventBusURL();
 
         /* HEALTH CHECKS */
         final EventBusHealthCheck eventBusHealthCheck = new EventBusHealthCheck(eventBusURL);
