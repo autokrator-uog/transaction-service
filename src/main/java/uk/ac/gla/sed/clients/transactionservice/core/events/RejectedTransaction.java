@@ -9,7 +9,7 @@ public class RejectedTransaction extends Event {
     private String reason;
 
     public RejectedTransaction(Event incomingEvent){
-        super("RejectedTransaction", Json.object().asObject());
+        super("RejectedTransaction", Json.object().asObject(), incomingEvent.getConsistency());
         if (!incomingEvent.getType().equals("RejectedTransaction")){
             throw new IllegalArgumentException("Event must be of type RejectedTransaction");
         }

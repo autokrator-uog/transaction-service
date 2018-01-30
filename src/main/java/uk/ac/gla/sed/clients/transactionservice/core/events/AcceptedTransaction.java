@@ -8,7 +8,7 @@ public class AcceptedTransaction extends Event {
     private String transactionId;
 
     public AcceptedTransaction(Event incomingEvent){
-        super("AcceptedTransaction", Json.object().asObject());
+        super("AcceptedTransaction", Json.object().asObject(), incomingEvent.getConsistency());
 
         if (!incomingEvent.getType().equals("AcceptedTransaction")){
             throw new IllegalArgumentException("Event must be of type AcceptedTransaction");
