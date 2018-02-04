@@ -8,7 +8,9 @@ import uk.ac.gla.sed.clients.transactionservice.core.handlers.TransactionHandler
 import uk.ac.gla.sed.clients.transactionservice.jdbi.TransactionDAO;
 import uk.ac.gla.sed.shared.eventbusclient.api.Event;
 import uk.ac.gla.sed.shared.eventbusclient.api.EventBusClient;
+import uk.ac.gla.sed.shared.eventbusclient.internal.messages.RegisterMessage;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 
 public class EventProcessor implements Managed {
@@ -29,6 +31,11 @@ public class EventProcessor implements Managed {
     @Override
     public void start() throws Exception{
         this.eventBusClient.start();
+        ArrayList<String> interestedEvents = new ArrayList<>();
+        interestedEvents.add("AcceptedTransaction");
+        interestedEvents.add("RejectedTransaction");
+        RegisterMessage registration = new RegisterMessage("transaction", interestedEvents);
+        eventBusClient.register(registration);
         workers.submit(new ConsumeEventTask());
     }
 

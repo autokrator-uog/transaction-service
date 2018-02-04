@@ -6,6 +6,7 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.skife.jdbi.v2.DBI;
 import uk.ac.gla.sed.clients.transactionservice.core.EventProcessor;
+import uk.ac.gla.sed.clients.transactionservice.core.ReceiptProcessor;
 import uk.ac.gla.sed.clients.transactionservice.health.EventBusHealthCheck;
 import uk.ac.gla.sed.clients.transactionservice.jdbi.TransactionDAO;
 import uk.ac.gla.sed.clients.transactionservice.resources.HelloResource;
@@ -56,7 +57,13 @@ public class TransactionServiceApplication extends Application<TransactionServic
                 environment.lifecycle().executorService("eventproessor").build()
         );
         EventBusClient eventBusClient = eventProcessor.getEventBusClient();
+        final ReceiptProcessor receiptProcessor = new ReceiptProcessor(
+                eventBusClient,
+                dao,
+                environment.lifecycle().executorService("receiptprocessor").build()
+        );
         environment.lifecycle().manage(eventProcessor);
+        environment.lifecycle().manage(receiptProcessor);
 
         environment.jersey().register(new HelloResource());
         environment.jersey().register(new apiTransactionResource(eventBusClient, lastTransactionID ,dao));
