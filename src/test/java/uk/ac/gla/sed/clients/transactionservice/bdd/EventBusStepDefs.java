@@ -9,6 +9,7 @@ import uk.ac.gla.sed.clients.transactionservice.api.apiTransaction;
 import uk.ac.gla.sed.clients.transactionservice.core.EventProcessor;
 import uk.ac.gla.sed.clients.transactionservice.jdbi.TransactionDAO;
 import uk.ac.gla.sed.clients.transactionservice.resources.apiTransactionResource;
+import uk.ac.gla.sed.shared.eventbusclient.api.Consistency;
 import uk.ac.gla.sed.shared.eventbusclient.api.Event;
 import uk.ac.gla.sed.shared.eventbusclient.api.EventBusClient;
 
@@ -82,7 +83,7 @@ public class EventBusStepDefs implements En {
     public EventBusStepDefs() {
         When("a[n]* \"(\\w+)\" event is received for transactionId (\\d+)", (String eventType, Integer transactionId) -> {
             Event event = new Event(eventType, Json.object().asObject()
-                    .set("TransactionID", transactionId.toString())
+                    .set("TransactionID", transactionId.toString()), new Consistency("test", "*")
             );
             setupReceiveEvent(event);
             runEventProcessor();

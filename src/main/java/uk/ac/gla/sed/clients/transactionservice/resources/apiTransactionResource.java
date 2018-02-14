@@ -5,6 +5,7 @@ import com.codahale.metrics.annotation.Timed;
 import uk.ac.gla.sed.clients.transactionservice.api.apiTransaction;
 import uk.ac.gla.sed.clients.transactionservice.core.events.PendingTransaction;
 import uk.ac.gla.sed.clients.transactionservice.jdbi.TransactionDAO;
+import uk.ac.gla.sed.shared.eventbusclient.api.Consistency;
 import uk.ac.gla.sed.shared.eventbusclient.api.EventBusClient;
 
 import javax.ws.rs.Consumes;
@@ -40,7 +41,9 @@ public class apiTransactionResource {
         currentID++;
         incoming.setTransactionID(currentID);
 
-        PendingTransaction current = new PendingTransaction(incoming);
+        String consistencyKey = String.format("TX-s%d-r%d", incoming.getFromAccountID(), incoming.getToAccountID());
+
+        PendingTransaction current = new PendingTransaction(incoming, new Consistency(consistencyKey    , "*"));
 
         dao.addTransaction(currentID);
         dao.updateStatus(currentID,0);
